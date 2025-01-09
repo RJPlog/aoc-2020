@@ -10,6 +10,18 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 	var tiles = input_1
 	var part = input_2
 
+	println("--------------------------------------------------")
+	var x = tiles.getValue(1171)
+	x = flip_tile(x)
+	x = rotate_tile(x)
+	x.texture.chunked(8).forEach{
+		println(it)
+	}
+	println()
+	println(x.right)
+	println("--------------------------------------------------")
+
+
 	// tag::search_corners[]
 	var sum: Int
 	var first_corner: Int = 0
@@ -120,52 +132,89 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 	}
 
     // find next tiles (first row)
-    
-    var matchId = current_tile.right
-    for (i in 0..gridSize -1 ) {
-        println("  searching match for $matchId")
-        tiles.forEach {
-            var matchTileFound = false
-            var matchTile = it.value
-            for (i in 0..7) {
-                when (i) {
-                    0 -> {
-                        if (matchTile.left == matchId) {
-                            matchTileFound = true
-                            matchId = matchTile.right
-                            // add texture to overall picture
-                        }
-                    }
-                    1,2,3 -> {
-                        matchTile = rotate_tile(matchTile)
-                        if (matchTile.left == matchId) {
-                            matchTileFound = true
-                            matchId = matchTile.right
-                            // add texture to overall picture
-                        }
-                    }
-                    4 -> {
-                        matchTile = flip_tile(matchTile)
-                        if (matchTile.left == matchId) {
-                            matchTileFound = true
-                            matchId = matchTile.right
-                            // add texture to overall picture
-                        }
-                    }
-                    5,6,7 -> {
-                        matchTile = rotate_tile(matchTile)
-                        if (matchTile.left == matchId) {
-                            matchTileFound = true
-                            matchId = matchTile.right
-                            // add texture to overall picture
-                        }
-                    }
-                }
-            } 
-            if (matchTileFound) println("matchFound: ${it.key}")
-        }
-    }
+    // and already build up picture
+	var tilesLeft = mutableMapOf<Int, Tile<String, String, String, String, String>>()
+	tiles.forEach {
+		tilesLeft.put(it.key, it.value)
+	}
+	tilesLeft.remove(first_corner)
 
+    var picture = mutableListOf<String>()
+	current_tile.texture.chunked(8).forEach {
+		picture.add(it)
+	}
+
+	picture.forEach{
+		println(it)
+	}
+	println()
+
+	// assemble first row
+	var Id2Search = current_tile.right
+	println("suchId = $Id2Search")
+
+	for (i in 0.. gridSize-2) {
+		// look which of the remaining tiles fits
+		var matchID = 0
+		tilesLeft.forEach {
+			println(it.key)
+			var rotFlip = 0
+			var matchFound = false
+			
+			//matchID = it.key
+			var tile2compare = it.value
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 0")
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 1")
+			}	
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 2")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 3")	
+			}
+			tile2compare = flip_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 4")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 5")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 6")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 7")	
+				Id2Search = tile2compare.right
+				matchID = it.key
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
+			}		
+		}
+
+		//if (matchFound) {
+			println(" to remove $matchID")
+			tilesLeft.remove(matchID)
+		//}
+		picture.forEach{
+			println(it)
+		}
+		println()	
+	}
+
+
+    
     if(false) {
         println()
         println("Tiles after removing unnecessary borders")
