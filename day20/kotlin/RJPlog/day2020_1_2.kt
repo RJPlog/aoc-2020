@@ -180,7 +180,14 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			}
 			tile2compare = flip_tile(tile2compare)
 			if (tile2compare.left == Id2Search) {
-				println("treffer bei $tile2compare, 4")	
+				println("treffer bei $tile2compare, 4")
+				Id2Search = tile2compare.right
+				matchID = it.key
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}	
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search) {
