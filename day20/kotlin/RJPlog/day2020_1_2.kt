@@ -156,33 +156,34 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 	for (i in 0.. gridSize-2) {
 		// look which of the remaining tiles fits
 		var matchID = 0
+		var matchFound = false
 		tilesLeft.forEach {
 			println(it.key)
 			var rotFlip = 0
-			var matchFound = false
 			
 			//matchID = it.key
 			var tile2compare = it.value
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 0")
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 1")
 			}	
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 2")	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 3")	
 			}
 			tile2compare = flip_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 4")
 				Id2Search = tile2compare.right
 				matchID = it.key
+				matchFound = true
 				var j = 0
 				tile2compare.texture.chunked(8) {
 					picture[j] = picture[j] + it
@@ -190,18 +191,19 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 				}	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 5")	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 6")	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 7")	
 				Id2Search = tile2compare.right
 				matchID = it.key
+				matchFound = true
 				var j = 0
 				tile2compare.texture.chunked(8) {
 					picture[j] = picture[j] + it
@@ -310,61 +312,73 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			println()	
 
 		// moving to the left
-		println("move Left with $Id2Search")
-		/*
-		insert loop for left -> 1 to grid size-2
-		for (i in 1.. gridSize-2) {
+
+		
+		//  insert loop for left -> 1 to grid size-2
+		for (k in 1.. gridSize-1) {
+
+			println("move Left with $Id2Search ---------------------")
 		// look which of the remaining tiles fits
 		var matchID = 0
+		var matchFound = false
 		tilesLeft.forEach {
 			println(it.key)
 			var rotFlip = 0
-			var matchFound = false
 			
 			//matchID = it.key
 			var tile2compare = it.value
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 0")
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 1")
 			}	
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 2")	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 3")	
 			}
 			tile2compare = flip_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 4")
 				Id2Search = tile2compare.right
 				matchID = it.key
+				matchFound = true
 				var j = 0
 				tile2compare.texture.chunked(8) {
-					picture[j] = picture[j] + it
+					picture[j+i*8] = picture[j+i*8] + it
 					j += 1
 				}	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 5")	
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 6")	
+				Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j+i*8] = picture[j + i*8] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
-			if (tile2compare.left == Id2Search) {
+			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 7")	
 				Id2Search = tile2compare.right
 				matchID = it.key
+				matchFound = true
 				var j = 0
 				tile2compare.texture.chunked(8) {
-					picture[j] = picture[j] + it
+					picture[j+i*8] = picture[j + i*8] + it
 					j += 1
 				}
 			}		
@@ -380,7 +394,7 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 		println()	
 	}
 	
-		*/	
+			
 	}
 
 	// now check for seemonster with flips and rots....
