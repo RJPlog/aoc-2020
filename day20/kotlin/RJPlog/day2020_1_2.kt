@@ -4,23 +4,10 @@
 import java.io.File
 import kotlin.math.*
 
-
 // tag::image_2[]
 fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String>>, input_2: Int): Long {
 	var tiles = input_1
 	var part = input_2
-
-	println("--------------------------------------------------")
-	var x = tiles.getValue(1171)
-	x = flip_tile(x)
-	x = rotate_tile(x)
-	x.texture.chunked(8).forEach{
-		println(it)
-	}
-	println()
-	println(x.right)
-	println("--------------------------------------------------")
-
 
 	// tag::search_corners[]
 	var sum: Int
@@ -165,18 +152,50 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			var tile2compare = it.value
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 0")
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 1")
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
 			}	
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 2")	
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 3")	
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
 			}
 			tile2compare = flip_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
@@ -193,10 +212,26 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 5")	
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
-				println("treffer bei $tile2compare, 6")	
+				println("treffer bei $tile2compare, 6")
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}	
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
@@ -241,10 +276,26 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			var tile2compare = it.value
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
 				println("treffer bei $tile2compare, 0")
+                Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}	
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
 				println("treffer bei $tile2compare, 1")
+                Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}	
 			}	
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
@@ -261,6 +312,14 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
 				println("treffer bei $tile2compare, 3")	
+                Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}	
 			}
 			tile2compare = flip_tile(tile2compare)
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
@@ -277,6 +336,14 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
 				println("treffer bei $tile2compare, 5")	
+                Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}	
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
@@ -329,18 +396,50 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			var tile2compare = it.value
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 0")
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j+i*8] = picture[j+i*8] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 1")
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j+i*8] = picture[j+i*8] + it
+					j += 1
+				}
 			}	
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 2")	
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j+i*8] = picture[j+i*8] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 3")	
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j+i*8] = picture[j+i*8] + it
+					j += 1
+				}
 			}
 			tile2compare = flip_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
@@ -357,6 +456,14 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
 				println("treffer bei $tile2compare, 5")	
+                Id2Search = tile2compare.right
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j+i*8] = picture[j+i*8] + it
+					j += 1
+				}
 			}
 			tile2compare = rotate_tile(tile2compare)
 			if (tile2compare.left == Id2Search && !matchFound) {
@@ -411,6 +518,7 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
     var regex = Regex("(#.{"+ (gridSize - 20 + 1) +"}#.{4}##.{4}##.{4}###.{"+ (gridSize - 20 + 1) +"}#.{2}#.{2}#.{2}#.{2}#.{2}#)")
     //regex = Regex("(#.{"+(gridSize - 19)+"}#.{4}##.{4}##.{4}###.{"+ (gridSize - 20 + 1) +"}#.{2}#.{2}#.{2}#.{2}#.{2}#)")
     var monsters = 0
+    var monstersAlt = 0
     
 
     // das hier sollte 2 monster bei 5 ausgeben, hat aber dort 0 und bei 6/ 7 jeweils 2?
@@ -422,11 +530,36 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
             4 -> picture2test = flip_picture(picture2test)
             5,6,7 -> picture2test = rotate_picture(picture2test)
         }
+        
+        // alternative Monsterberechnung
+        var numbersAlt = 0
+        for (y in 1..gridSize-2) {
+            for (x in 0..gridSize-1-20) {
+                if (picture2test[x+gridSize*y] == '#' && picture2test[x+5+gridSize*y] == '#' && picture2test[x+6+gridSize*y] == '#') {
+                    if (picture2test[x+11+gridSize*y] == '#' && picture2test[x+12+gridSize*y] == '#' && picture2test[x+17+gridSize*y] == '#') {
+                        if (picture2test[x+18+gridSize*y] == '#' && picture2test[x+19+gridSize*y] == '#') {
+                            if (picture2test[x+18+gridSize*(y-1)] == '#' && picture2test[x+1+gridSize*(y+1)] == '#' && picture2test[x+4+gridSize*(y+1)] == '#') {
+                                if (picture2test[x+7+gridSize*(y+1)] == '#' && picture2test[x+10+gridSize*(y+1)] == '#') {
+                                    if (picture2test[x+13+gridSize*(y+1)] == '#' && picture2test[x+16+gridSize*(y+1)] == '#') {
+                                        numbersAlt += 1
+                                    }   
+                                }
+                                
+                            }
+                        }
+                    }
+                } 
+            }
+        }
+
+        // ursprüngliche Monsterberechnung
         val matches = regex.findAll(picture2test)
         val numbers = matches.map { it.groupValues[1] }.count()
         if (numbers > 0) monsters = numbers
+        if (numbersAlt > 0) monstersAlt = numbersAlt
 
         println("$m... monsters $numbers")
+        println("$m... monstersAlt $numbersAlt")
         println("----picture-----")
         picture2test.chunked(gridSize) {
         //    println(it)
@@ -438,8 +571,9 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
     
     regex = Regex("(#)")
     val matches = regex.findAll(picture2test)
-    val numbers = matches.map { it.groupValues[1] }.count()
-
+    var numbers = matches.map { it.groupValues[1] }.count()
+    numbers = picture2test.count {it == '#'}
+    println(" anzahl # $numbers")
     
     if(false) {
         println()
@@ -449,8 +583,8 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
         }
     }
 
-
-	return (numbers - monsters * 15).toLong()
+    println("numbers $numbers, monsters $monsters, diff ${numbers-monsters*15}")
+	return (numbers - monstersAlt * 15).toLong()
 }
 // end::image_2[]
 
@@ -484,7 +618,7 @@ fun main(args: Array<String>) {
 // print solution for part 2
 	println("****************************")
 	println("Solution for part2")
-	println("   $solution2 # are not part of a sea monster")
+	println("   $solution2 # are not part of a sea monster")  // 2501 is to high
 	println()
 // end::output[]
 }
