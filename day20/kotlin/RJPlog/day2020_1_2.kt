@@ -1,3 +1,6 @@
+//  sudo apt-get update && sudo apt-get install kotlin
+//  kotlinc day2020_1_2.kt -include-runtime -d day2020_1_2.jar && java -jar day2020_1_2.jar
+
 import java.io.File
 import kotlin.math.*
 
@@ -97,8 +100,13 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
     //               part 2
     //****************************************
 
+    // what is the size of the grid?
+    var gridSize = sqrt(tiles.size.toDouble()).toInt()
+    println("the grid is $gridSize x $gridSize")
+
     // starting with adusting the first corner:
     print("FirstCorner is:   ")
+    print("   $first_corner    ")
     println(tiles.getValue(first_corner))
     var current_tile = tiles.getValue(first_corner)
 
@@ -110,6 +118,53 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 		println(current_tile)
         j += 1
 	}
+
+    // find next tiles (first row)
+    
+    var matchId = current_tile.right
+    for (i in 0..gridSize -1 ) {
+        println("  searching match for $matchId")
+        tiles.forEach {
+            var matchTileFound = false
+            var matchTile = it.value
+            for (i in 0..7) {
+                when (i) {
+                    0 -> {
+                        if (matchTile.left == matchId) {
+                            matchTileFound = true
+                            matchId = matchTile.right
+                            // add texture to overall picture
+                        }
+                    }
+                    1,2,3 -> {
+                        matchTile = rotate_tile(matchTile)
+                        if (matchTile.left == matchId) {
+                            matchTileFound = true
+                            matchId = matchTile.right
+                            // add texture to overall picture
+                        }
+                    }
+                    4 -> {
+                        matchTile = flip_tile(matchTile)
+                        if (matchTile.left == matchId) {
+                            matchTileFound = true
+                            matchId = matchTile.right
+                            // add texture to overall picture
+                        }
+                    }
+                    5,6,7 -> {
+                        matchTile = rotate_tile(matchTile)
+                        if (matchTile.left == matchId) {
+                            matchTileFound = true
+                            matchId = matchTile.right
+                            // add texture to overall picture
+                        }
+                    }
+                }
+            } 
+            if (matchTileFound) println("matchFound: ${it.key}")
+        }
+    }
 
     if(false) {
         println()
@@ -233,3 +288,11 @@ fun rotate_tile(input: Tile<String, String, String, String, String>): Tile<Strin
 	return Tile(input.right, input.up.reversed(), input.down.reversed(), input.left, rotate)
 }
 // rotate[]
+
+fun flip_tile(input: Tile<String, String, String, String, String>): Tile<String, String, String, String, String> {
+	var flip: String = ""
+	input.texture.chunked(8).forEach {
+        flip += it.reversed()
+    }
+	return Tile(input.up.reversed(), input.right, input.left, input.down.reversed(), flip)
+}
