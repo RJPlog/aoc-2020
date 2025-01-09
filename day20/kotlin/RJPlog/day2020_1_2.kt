@@ -220,7 +220,170 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 		println()	
 	}
 
+	// so, jetzt alles noch für gridSize - 1 Reihen, erstes Glied nach oben orientieren, weitere nach Links
+	var Id2SearchFirstRow = current_tile.down
 
+
+	for (i in 1..gridSize-1) {
+		println("------------------------------------")
+		println("welcome to lines after first line")
+		println("next search line: $Id2SearchFirstRow")
+		var matchID = 0
+		var matchFound = false
+		// find first and update Id2SearchFirstRow
+		tilesLeft.forEach {
+			println("${it.key}, $matchFound")
+			var rotFlip = 0
+
+			//matchID = it.key
+			var tile2compare = it.value
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 0")
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 1")
+			}	
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 2")	
+				Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 3")	
+			}
+			tile2compare = flip_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 4")
+				Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 5")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 6")	
+				Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.up == Id2SearchFirstRow && !matchFound) {
+				println("treffer bei $tile2compare, 7")	
+				Id2Search = tile2compare.right
+				Id2SearchFirstRow = tile2compare.down
+				matchID = it.key
+				matchFound = true
+				tile2compare.texture.chunked(8) {
+					picture.add(it.toString())
+				}
+			}		
+		}
+
+		//if (matchFound) {
+			println(" to remove $matchID")
+			tilesLeft.remove(matchID)
+
+			picture.forEach{
+				println(it)
+			}
+			println()	
+
+		// moving to the left
+		println("move Left with $Id2Search")
+		/*
+		insert loop for left -> 1 to grid size-2
+		for (i in 1.. gridSize-2) {
+		// look which of the remaining tiles fits
+		var matchID = 0
+		tilesLeft.forEach {
+			println(it.key)
+			var rotFlip = 0
+			var matchFound = false
+			
+			//matchID = it.key
+			var tile2compare = it.value
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 0")
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 1")
+			}	
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 2")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 3")	
+			}
+			tile2compare = flip_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 4")
+				Id2Search = tile2compare.right
+				matchID = it.key
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 5")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 6")	
+			}
+			tile2compare = rotate_tile(tile2compare)
+			if (tile2compare.left == Id2Search) {
+				println("treffer bei $tile2compare, 7")	
+				Id2Search = tile2compare.right
+				matchID = it.key
+				var j = 0
+				tile2compare.texture.chunked(8) {
+					picture[j] = picture[j] + it
+					j += 1
+				}
+			}		
+		}
+
+		//if (matchFound) {
+			println(" to remove $matchID")
+			tilesLeft.remove(matchID)
+		//}
+		picture.forEach{
+			println(it)
+		}
+		println()	
+	}
+	
+		*/	
+	}
+
+	// now check for seemonster with flips and rots....
     
     if(false) {
         println()
