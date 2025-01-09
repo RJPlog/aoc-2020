@@ -1,14 +1,9 @@
-// sudo apt-get update && sudo apt-get install kotlin
-// kotlinc day2020_1_2.kt -include-runtime -d day2020_1_2.jar && java -jar day2020_1_2.jar
-
-
 import java.io.File
 import kotlin.math.*
 
 
 // tag::image_2[]
 fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String>>, input_2: Int): Long {
-
 	var tiles = input_1
 	var part = input_2
 
@@ -91,95 +86,39 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 		// replace all boarders which are not connected to an other tile
 		tiles.put(tile_id, Tile(borderA, borderB, borderC, borderD, texture))
 	}
+
 	// end::search_corners[]
+
 	if (part == 1) {
 		return result
 	}
 
-	println()
-	println("Tiles after removing unnecessary borders")
-	tiles.forEach {
-		println(it)
+    // ***************************************
+    //               part 2
+    //****************************************
+
+    // starting with adusting the first corner:
+    print("FirstCorner is:   ")
+    println(tiles.getValue(first_corner))
+    var current_tile = tiles.getValue(first_corner)
+
+    // turn/flip first_corner until left and up boarder contain '_'  -> do I have flip / do I need a flip???
+    var j = 0
+	while ((!current_tile.up.contains('_') || !current_tile.left.contains('_')) && j < 7) {
+		current_tile = rotate_tile(current_tile)
+        print("turn necessary:   ")
+		println(current_tile)
+        j += 1
 	}
 
-	// up to now we have the tiles map, we have removed all unecessary boarders, and we have a corner to start.
+    if(false) {
+        println()
+        println("Tiles after removing unnecessary borders")
+        tiles.forEach {
+            println(it)
+        }
+    }
 
-	// tag::built_grid[]
-	var grid = mutableMapOf<Pair<Int, Int>, Char>()
-	var xoff: Int = 0
-	var yoff: Int = 0
-	var current_tile = tiles.getValue(first_corner)
-
-
-	//************* hier wieder einsteigen mit neuem Wert für ein Eckmodul (id von downcorner) 
-
-	println("Start Tile: $first_corner, ${tiles.getValue(first_corner)}")
-
-	// turn/flip first_corner until left and up boarder contain '_'
-	while (!current_tile.up.contains('_') || !current_tile.left.contains('_')) {
-		current_tile = rotate_tile(tiles.getValue(first_corner))
-		println("turn necessary")
-	}
-	var current_right = current_tile.right
-	var current_down = current_tile.down
-
-	println("new Tile: $current_tile")
-	println()
-	for (y in (0 + yoff)..(7 + yoff)) {
-		for (x in (0 + xoff)..(7 + xoff)) {
-			grid.put(Pair(x, y), current_tile.texture.get(x + 8 * y))
-		}
-	}
-
-
-
-
-	for (y in 0 + yoff..7 + yoff) {
-		for (x in 0 + xoff..7 + xoff) {
-			print(grid.getValue(Pair(x, y)))
-		}
-		println()
-	}
-	println()
-	println("current_tile right corner ${current_right}, down corner ${current_down}")
-
-	xoff = xoff + 8
-
-	tiles.remove(first_corner)  // die Kanten sind bekannt, also brauche ich diesen Eintrag nicht mehr?
-
-
-	println()
-	println("now searching for a corner fitting to right corner: $current_right ")
-	println()
-	tiles.forEach {
-		println(it)
-
-	}
-
-	//******************************************
-	//  20.12., 22:00: Beliebige Ecke identifiziert, und so gedreht, das links und oben die Ränder sind.
-	// weiter geht es mit aufsetzen des Grids, xoffset und yoffset sind 0, ab hier jetzt die texture abspeichern, nach jedem 8. wert y erhöhen,
-	// am Schluss den X Offset um 8 erhöhen,
-	// weiter geht es mit suchen nach dem nächtsen element das an die rechte Kante passt, durch alle tiles gehen, jedes element drehen und flipen, solage bis eines passt.
-	// dann neue rechte Kante ermitteln, und element ab XOFFSEt abspeichern.
-	// das ganze 9 mal machen und dann den XOffset wieder auf null stellen, aber dafür den YOffset um 8 erhöhen.
-	// jetzt im Prinzip anschlusspunkt an down suchen und als neue Ecke in den prozess einspeisen.
-
-
-	// store texture into new xpos/ypos map
-
-	// get down boarder and right boarder
-
-	//for right boarder, search all tiles for match. When necessary, turn/flip until match.
-	// store texture into xpos/ypos map
-
-	// get rigth boarder, repeat search (9 times
-
-	// search down boarder, get new down boarder and right boarder, repeat 9 times
-
-	// remove boarders out of xpos/ypos map (100/100 --> 64/64 map
-	// --> now it seems to have a xpos/ypos map,where we can search for the sea monster (necessary for all 8 turn/flip directions, at least until sea monsters are found
-	// tag::built_grid[]
 
 	return result
 }
@@ -198,10 +137,10 @@ fun main(args: Array<String>) {
 
 // tag::part_2[]
 	var t2 = System.currentTimeMillis()
-//	var solution2 = image_2(read_puzzle_input_20(), 2)
+	var solution2 = image_2(read_puzzle_input_20(), 2)
 	t2 = System.currentTimeMillis() - t2
 	println()
-//	println("part 2 solved in $t2 ms -> $solution2")
+	println("part 2 solved in $t2 ms -> $solution2")
 // end::part_2[]
 
 // tag::output[]
@@ -215,7 +154,7 @@ fun main(args: Array<String>) {
 // print solution for part 2
 	println("****************************")
 	println("Solution for part2")
-//	println("   $solution2 # are not part of a sea monster")
+	println("   $solution2 # are not part of a sea monster")
 	println()
 // end::output[]
 }
