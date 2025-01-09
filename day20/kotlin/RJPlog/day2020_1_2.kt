@@ -398,6 +398,48 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
 	}
 
 	// now check for seemonster with flips and rots....
+
+    println()
+    println("------------Ergebnisberechnung------------------")
+    var seaMonsterCount = 0
+
+    var picture2test = picture.joinToString("")
+
+    gridSize = sqrt(picture2test.length.toDouble()).toInt()
+    println(gridSize)
+
+    var regex = Regex("(#.{"+ (gridSize - 20 + 1) +"}#.{4}##.{4}##.{4}###.{"+ (gridSize - 20 + 1) +"}#.{2}#.{2}#.{2}#.{2}#.{2}#)")
+    //regex = Regex("(#.{"+(gridSize - 19)+"}#.{4}##.{4}##.{4}###.{"+ (gridSize - 20 + 1) +"}#.{2}#.{2}#.{2}#.{2}#.{2}#)")
+    var monsters = 0
+    
+
+    // das hier sollte 2 monster bei 5 ausgeben, hat aber dort 0 und bei 6/ 7 jeweils 2?
+    for (m in 0..7) {
+
+        when (m) {
+            0 -> picture2test = picture2test
+            1,2,3 -> picture2test = rotate_picture(picture2test)
+            4 -> picture2test = flip_picture(picture2test)
+            5,6,7 -> picture2test = rotate_picture(picture2test)
+        }
+        val matches = regex.findAll(picture2test)
+        val numbers = matches.map { it.groupValues[1] }.count()
+        if (numbers > 0) monsters = numbers
+
+        println("$m... monsters $numbers")
+        println("----picture-----")
+        picture2test.chunked(gridSize) {
+        //    println(it)
+        }
+        println()
+    }
+
+    println(" monsters: $monsters")
+    
+    regex = Regex("(#)")
+    val matches = regex.findAll(picture2test)
+    val numbers = matches.map { it.groupValues[1] }.count()
+
     
     if(false) {
         println()
@@ -408,7 +450,7 @@ fun image_2(input_1: MutableMap<Int, Tile<String, String, String, String, String
     }
 
 
-	return result
+	return (numbers - monsters * 15).toLong()
 }
 // end::image_2[]
 
@@ -528,4 +570,27 @@ fun flip_tile(input: Tile<String, String, String, String, String>): Tile<String,
         flip += it.reversed()
     }
 	return Tile(input.up.reversed(), input.right, input.left, input.down.reversed(), flip)
+}
+
+// tag::rotate[]
+fun rotate_picture(in1: String): String{
+	var rotate: String = ""
+
+    var gridSize = sqrt(in1.length.toDouble()).toInt()
+	for (j in 0..gridSize-1) {
+		for (i in 0..gridSize-1) {
+			rotate = rotate + in1.get((i + (i + 1) * (gridSize-1)) % (in1.length) - j).toString()
+		}
+	}
+	return rotate
+}
+// rotate[]
+
+fun flip_picture(in1: String): String {
+	var flip: String = ""
+    var gridSize = sqrt(in1.length.toDouble()).toInt()
+	in1.chunked(gridSize).forEach {
+        flip += it.reversed()
+    }
+	return flip
 }
